@@ -18,8 +18,10 @@ RUN : \
 
 RUN : \
     && set -eux \
-    && curl -sfLO -o loki.zip https://github.com/grafana/loki/archive/refs/tags/v${LOKI_VERSION}.zip \
-    && unzip -q loki.zip \
+    && curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v${LOKI_VERSION}.zip \
+    && ls -alh \
+    && unzip -q v${LOKI_VERSION}.zip \
+    && ls -alh \
     && cd loki-${LOKI_VERSION} \
     && make clean \
     && make BUILD_IN_CONTAINER=false promtail \
