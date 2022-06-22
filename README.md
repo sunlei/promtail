@@ -1,1 +1,3 @@
-# Promtail with Journal Support for Arm
+# Promtail
+
+Promtail with Journal Support for Arm.

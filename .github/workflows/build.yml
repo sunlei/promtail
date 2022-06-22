@@ -85,12 +85,14 @@ jobs:
             promtail \
             promtail-linux-arm64
           zip -q promtail-linux-arm64.zip promtail-linux-arm64
+          sha256sum promtail-linux-arm64.zip > SHA256SUMS
 
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/promtail-linux-arm64.zip
+          file: loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/{promtail-linux-arm64.zip,SHA256SUMS}
           # asset_name: promtail-linux-arm64.zip
           tag: ${{ env.LOKI_VERSION }}
           overwrite: true
+          file_glob: true
