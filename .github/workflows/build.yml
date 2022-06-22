@@ -70,11 +70,8 @@ jobs:
 
       - name: Build Release
         run: |
-          # mkdir -p $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/
-
           curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
           unzip -q v$LOKI_VERSION.zip
-          ls -alh
 
           docker run --rm \
             --platform linux/arm64 \
@@ -87,23 +84,7 @@ jobs:
           cp \
             promtail \
             promtail-linux-arm64
-
-          # echo hi > promtail-linux-arm64
           zip -q promtail-linux-arm64.zip promtail-linux-arm64
-
-      - name: Check
-        run: |
-          pwd
-          ls -alh
-          ls -alh $PWD/loki-$LOKI_VERSION
-          ls -alh $PWD/loki-$LOKI_VERSION/clients/cmd/promtail
-
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     name: $LOKI_VERSION
-      #     files: |
-      #       $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
 
       - name: Release
         uses: svenstaro/upload-release-action@v2
