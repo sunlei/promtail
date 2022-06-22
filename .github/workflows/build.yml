@@ -106,7 +106,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.PWD }}/loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/promtail-linux-arm64
+          file: loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/promtail-linux-arm64
           asset_name: promtail-linux-arm64
           tag: ${{ github.ref }}
           overwrite: true
