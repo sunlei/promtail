@@ -65,18 +65,44 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
-  container-test-job:
+  # container-test-job:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: arm64v8/golang:1.17.11-bullseye
+  #     # env:
+  #     #   NODE_ENV: development
+  #     # ports:
+  #     #   - 80
+  #     # volumes:
+  #     #   - my_docker_volume:/volume_mount
+  #     options: --platform linux/arm64
+  #   steps:
+  #     - name: Check for arch
+  #       run: |
+  #         arch
+
+  #     - name: Upload bin directory
+  #       uses: actions/upload-artifact@main
+  #       if: steps.build.outcome == 'success'
+  #       with:
+  #         name: promtail
+  #         path: promtail
+
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    container:
-      image: arm64v8/golang:1.17.11-bullseye
-      # env:
-      #   NODE_ENV: development
-      # ports:
-      #   - 80
-      # volumes:
-      #   - my_docker_volume:/volume_mount
-      options: --platform linux/arm64
+
     steps:
-      - name: Check for arch
+      - name: build
         run: |
-          arch
+          docker run --rm \
+            --platform linux/arm64 \
+            arm64v8/golang:1.17.11-bullseye \
+            -v $PWD/dist:/root/ \
+            echo "hi" > /root/dist.txt
+
+      - name: Check
+        run: |
+          pwd
+          ls -alh
+          ls -alh /root
