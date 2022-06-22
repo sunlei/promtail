@@ -74,9 +74,6 @@ jobs:
           # unzip -q v$LOKI_VERSION.zip
           # ls -alh
 
-          mkdir -p $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/
-          echo hi > $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
-
           # docker run --rm \
           #   --platform linux/arm64 \
           #   -v $PWD/loki-$LOKI_VERSION:/usr/src/myapp \
@@ -87,6 +84,12 @@ jobs:
           # cp \
           #   $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail \
           #   $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
+
+          mkdir -p $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/
+          cd loki-$LOKI_VERSION/clients/cmd/promtail/
+
+          echo hi > promtail-linux-arm64
+          zip -q promtail-linux-arm64.zip promtail-linux-arm64
 
       - name: Check
         run: |
@@ -106,7 +109,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/promtail-linux-arm64
-          asset_name: promtail-linux-arm64
+          file: loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/promtail-linux-arm64.zip
+          # asset_name: promtail-linux-arm64.zip
           tag: ${{ env.LOKI_VERSION }}
           overwrite: true
