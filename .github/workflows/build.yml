@@ -40,6 +40,21 @@ jobs:
             --platform linux/arm64 \
             arm64v8/golang:1.17.11-bullseye 'arch'
 
+      - name: build
+        run: |
+          docker run --rm \
+            --platform linux/arm64 \
+            arm64v8/golang:1.17.11-bullseye \
+            -v $PWD/dist:/home/runner/ \
+            echo "hi" > /home/runner/dist.txt
+
+      - name: Check
+        run: |
+          pwd
+          ls -alh
+          ls -alh /home/runner
+
+
       # - name: Log in to the GitHub Container registry
       #   uses: docker/login-action@v2
       #   with:
@@ -87,22 +102,3 @@ jobs:
   #       with:
   #         name: promtail
   #         path: promtail
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: build
-        run: |
-          docker run --rm \
-            --platform linux/arm64 \
-            arm64v8/golang:1.17.11-bullseye \
-            -v $PWD/dist:/root/ \
-            echo "hi" > /root/dist.txt
-
-      - name: Check
-        run: |
-          pwd
-          ls -alh
-          ls -alh /root
