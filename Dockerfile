@@ -6,9 +6,7 @@ RUN : \
     && set -eux \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-        unzip \
         libsystemd-dev \
-        tree \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && :

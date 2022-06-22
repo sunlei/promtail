@@ -65,7 +65,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build
+      - name: Build Release
         run: |
           curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
           unzip -q v$LOKI_VERSION.zip
