@@ -29,6 +29,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -78,9 +80,20 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
             make BUILD_IN_CONTAINER=false promtail
 
+          cp \
+            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail \
+            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail-linux-arm64
+
       - name: Check
         run: |
           pwd
           ls -alh
           ls -alh $PWD/loki-$LOKI_VERSION
           ls -alh $PWD/loki-$LOKI_VERSION/clients/cmd/promtail
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: $LOKI_VERSION
+          files: |
+            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail-linux-arm64
