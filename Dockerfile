@@ -22,6 +22,8 @@ RUN : \
     && ls -alh / \
     && tree /github \
     && tree ${HOME} \
+    && tree ${GITHUB_HOME} \
+    && tree ${GITHUB_WORKSPACE} \
     # && curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v${LOKI_VERSION}.zip \
     # && ls -alh \
     # && unzip -q v${LOKI_VERSION}.zip \
