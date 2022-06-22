@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: Build
 
 on:
   workflow_dispatch:
@@ -7,21 +7,27 @@ on:
       - master
     paths:
       - "Dockerfile"
-      - ".github/workflows/build-docker.yml"
+      - ".github/workflows/build.yml"
   pull_request:
     branches:
       - master
     paths:
       - "Dockerfile"
-      - ".github/workflows/build-docker.yml"
+      - ".github/workflows/build.yml"
+  # workflow_run:
+  #   workflows: [Build Docker Image]
+  #   types:
+  #     - completed
 
 env:
+  # https://github.com/grafana/loki/releases
+  LOKI_VERSION: 2.5.0
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-docker-image:
-    name: Build Docker Image
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +55,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and push
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -58,3 +64,22 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build
+        run: |
+          curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
+          unzip -q v$LOKI_VERSION.zip
+          ls -alh
+
+          docker run --rm \
+            --platform linux/arm64 \
+            -v $PWD/loki-$LOKI_VERSION:/usr/src/myapp \
+            -w /usr/src/myapp \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
+            make BUILD_IN_CONTAINER=false promtail
+
+      - name: Check
+        run: |
+          pwd
+          ls -alh
+          ls -alh $PWD/loki-$LOKI_VERSION
