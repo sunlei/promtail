@@ -15,9 +15,9 @@ on:
       - "Dockerfile"
       - ".github/workflows/build.yml"
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+# env:
+#   REGISTRY: ghcr.io
+#   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-docker-image:
@@ -68,7 +68,7 @@ jobs:
   container-test-job:
     runs-on: ubuntu-latest
     container:
-      image:  arm64v8/golang:1.17.11-bullseye
+      image: arm64v8/golang:1.17.11-bullseye
       # env:
       #   NODE_ENV: development
       # ports:
@@ -77,7 +77,6 @@ jobs:
       #   - my_docker_volume:/volume_mount
       options: --platform linux/arm64
     steps:
-      - name: Check for dockerenv file
+      - name: Check for arch
         run: |
-          (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
           arch
