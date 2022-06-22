@@ -82,8 +82,8 @@ jobs:
             make BUILD_IN_CONTAINER=false promtail
 
           cp \
-            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail \
-            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail-linux-arm64
+            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail \
+            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
 
       - name: Check
         run: |
@@ -97,4 +97,4 @@ jobs:
         with:
           name: $LOKI_VERSION
           files: |
-            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail-linux-arm64
+            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
