@@ -15,7 +15,8 @@ on:
       - "Dockerfile"
       - ".github/workflows/build.yml"
 
-# env:
+env:
+  LOKI_VERSION: 2.5.0
 #   REGISTRY: ghcr.io
 #   IMAGE_NAME: ${{ github.repository }}
 
@@ -34,27 +35,30 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Check env
+      - name: Prepare env
         run: |
-          docker run --rm \
-            --platform linux/arm64 \
-            golang:1.17.11-bullseye ls -alh /
+          apt-get update \
+          && apt-get install -y --no-install-recommends \
+              libsystemd-dev \
 
       - name: Build
         run: |
+          curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
+          unzip -q v$LOKI_VERSION.zip
+          cd loki-$LOKI_VERSION
+
           docker run --rm \
             --platform linux/arm64 \
-            -v $PWD/dist:/tmp \
+            -v $PWD/loki-$LOKI_VERSION:/usr/src/myapp \
+            -w /usr/src/myapp \
             golang:1.17.11-bullseye \
-            echo hi > /tmp/dist.txt
+            make BUILD_IN_CONTAINER=false promtail
 
       - name: Check
         run: |
           pwd
           ls -alh
-          ls -alh /tmp
-          ls -alh dist
-
+          ls -alh $PWD/loki-$LOKI_VERSION
 
       # - name: Log in to the GitHub Container registry
       #   uses: docker/login-action@v2
