@@ -108,5 +108,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: loki-${{ env.LOKI_VERSION }}/clients/cmd/promtail/promtail-linux-arm64
           asset_name: promtail-linux-arm64
-          tag: ${{ github.ref }}
+          tag: ${{ env.LOKI_VERSION }}
           overwrite: true
