@@ -44,8 +44,8 @@ jobs:
         run: |
           docker run --rm \
             --platform linux/arm64 \
-            arm64v8/golang:1.17.11-bullseye \
             -v $PWD/dist:/home/runner/ \
+            arm64v8/golang:1.17.11-bullseye \
             'echo hi > /home/runner/dist.txt'
 
       - name: Check
