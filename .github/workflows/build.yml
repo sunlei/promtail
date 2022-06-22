@@ -46,7 +46,7 @@ jobs:
             --platform linux/arm64 \
             arm64v8/golang:1.17.11-bullseye \
             -v $PWD/dist:/home/runner/ \
-            echo "hi" > /home/runner/dist.txt
+            'echo hi > /home/runner/dist.txt'
 
       - name: Check
         run: |
