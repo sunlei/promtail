@@ -1,21 +1,18 @@
-name: Build
+name: Build Release
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Build Docker Image]
+    types:
+      - completed
   push:
     branches:
       - master
     paths:
-      - "Dockerfile"
-      - ".github/workflows/build.yml"
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "Dockerfile"
-      - ".github/workflows/build.yml"
+      - ".github/workflows/build-release.yml"
 
 env:
+  # https://github.com/grafana/loki/releases
   LOKI_VERSION: 2.5.0
 #   REGISTRY: ghcr.io
 #   IMAGE_NAME: ${{ github.repository }}
