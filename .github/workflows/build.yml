@@ -44,15 +44,16 @@ jobs:
         run: |
           docker run --rm \
             --platform linux/arm64 \
-            -v $PWD/dist:/home/runner/ \
+            -v $PWD/dist:/tmp \
             arm64v8/golang:1.17.11-bullseye \
-            'echo hi > /home/runner/dist.txt'
+            'echo hi > /tmp/dist.txt'
 
       - name: Check
         run: |
           pwd
           ls -alh
-          ls -alh /home/runner
+          ls -alh /tmp
+          ls -alh dist
 
 
       # - name: Log in to the GitHub Container registry
