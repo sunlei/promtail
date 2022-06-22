@@ -38,15 +38,15 @@ jobs:
         run: |
           docker run --rm \
             --platform linux/arm64 \
-            arm64v8/golang:1.17.11-bullseye 'arch'
+            golang:1.17.11-bullseye 'arch'
 
       - name: build
         run: |
           docker run --rm \
             --platform linux/arm64 \
             -v $PWD/dist:/tmp \
-            arm64v8/golang:1.17.11-bullseye \
-            'echo hi > /tmp/dist.txt'
+            golang:1.17.11-bullseye \
+            echo hi > /tmp/dist.txt
 
       - name: Check
         run: |
