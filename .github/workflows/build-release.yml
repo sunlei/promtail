@@ -1,10 +1,11 @@
 name: Build Release
 
 on:
-  workflow_run:
-    workflows: [Build Docker Image]
-    types:
-      - completed
+  workflow_dispatch:
+  # workflow_run:
+  #   workflows: [Build Docker Image]
+  #   types:
+  #     - completed
   push:
     branches:
       - master
@@ -14,8 +15,8 @@ on:
 env:
   # https://github.com/grafana/loki/releases
   LOKI_VERSION: 2.5.0
-#   REGISTRY: ghcr.io
-#   IMAGE_NAME: ${{ github.repository }}
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-docker-image:
@@ -48,7 +49,7 @@ jobs:
             --platform linux/arm64 \
             -v $PWD/loki-$LOKI_VERSION:/usr/src/myapp \
             -w /usr/src/myapp \
-            golang:1.17.11-bullseye \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
             make BUILD_IN_CONTAINER=false promtail
 
       - name: Check
