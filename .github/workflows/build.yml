@@ -70,20 +70,22 @@ jobs:
 
       - name: Build Release
         run: |
-          curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
-          unzip -q v$LOKI_VERSION.zip
-          ls -alh
+          # curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
+          # unzip -q v$LOKI_VERSION.zip
+          # ls -alh
 
-          docker run --rm \
-            --platform linux/arm64 \
-            -v $PWD/loki-$LOKI_VERSION:/usr/src/myapp \
-            -w /usr/src/myapp \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
-            make BUILD_IN_CONTAINER=false promtail
+          touch $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
 
-          cp \
-            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail \
-            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
+          # docker run --rm \
+          #   --platform linux/arm64 \
+          #   -v $PWD/loki-$LOKI_VERSION:/usr/src/myapp \
+          #   -w /usr/src/myapp \
+          #   ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
+          #   make BUILD_IN_CONTAINER=false promtail
+
+          # cp \
+          #   $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail \
+          #   $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
 
       - name: Check
         run: |
@@ -92,9 +94,18 @@ jobs:
           ls -alh $PWD/loki-$LOKI_VERSION
           ls -alh $PWD/loki-$LOKI_VERSION/clients/cmd/promtail
 
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     name: $LOKI_VERSION
+      #     files: |
+      #       $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
+
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: $LOKI_VERSION
-          files: |
-            $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: $PWD/loki-$LOKI_VERSION/clients/cmd/promtail/promtail-linux-arm64
+          asset_name: promtail-linux-arm64
+          tag: ${{ github.ref }}
+          overwrite: true
