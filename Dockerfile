@@ -1,6 +1,6 @@
 # https://github.com/grafana/loki/blob/main/clients/cmd/promtail/Dockerfile
 
-FROM golang:1.17.11-bullseye as builder
+FROM golang:1.18.3-bullseye as builder
 
 # https://github.com/grafana/loki/releases
 ENV LOKI_VERSION 2.5.0
