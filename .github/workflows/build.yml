@@ -41,7 +41,7 @@ jobs:
         run: |
           docker info
           docker run --rm \
-            --platform arm64v8 \
+            --platform linux/arm64 \
             arm64v8/golang:1.17.11-bullseye 'arch'
 
       # - name: Log in to the GitHub Container registry
