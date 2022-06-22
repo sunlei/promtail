@@ -45,7 +45,7 @@ jobs:
         run: |
           curl -sfLO https://github.com/grafana/loki/archive/refs/tags/v$LOKI_VERSION.zip
           unzip -q v$LOKI_VERSION.zip
-          cd loki-$LOKI_VERSION
+          ls -alh
 
           docker run --rm \
             --platform linux/arm64 \
