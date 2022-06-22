@@ -2,15 +2,20 @@ name: Build Release
 
 on:
   workflow_dispatch:
-  # workflow_run:
-  #   workflows: [Build Docker Image]
-  #   types:
-  #     - completed
   push:
     branches:
       - master
     paths:
       - ".github/workflows/build-release.yml"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/build-release.yml"
+  # workflow_run:
+  #   workflows: [Build Docker Image]
+  #   types:
+  #     - completed
 
 env:
   # https://github.com/grafana/loki/releases
@@ -19,8 +24,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-docker-image:
-    name: Build Docker Image
+  build-release:
+    name: Build Release
     runs-on: ubuntu-latest
 
     steps:
