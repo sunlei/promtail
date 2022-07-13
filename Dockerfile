@@ -1,6 +1,6 @@
 # https://github.com/grafana/loki/blob/main/clients/cmd/promtail/Dockerfile
 
-FROM golang:1.17.11-bullseye as builder
+FROM golang:1.18.0-bullseye as builder
 
 RUN : \
     && set -eux \
