@@ -21,7 +21,7 @@ on:
 
 env:
   # https://github.com/grafana/loki/releases
-  LOKI_VERSION: 2.5.0
+  LOKI_VERSION: 2.6.1
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
